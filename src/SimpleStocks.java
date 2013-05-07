@@ -6,8 +6,7 @@ import java.util.*;
 public class SimpleStocks extends JApplet implements ActionListener{
 
 
-	JButton buttonArray[] = { new JButton("Generate"), 
-				new JButton("Sort"), new JButton("Shuffle") };
+	JButton generateButton = new JButton("Generate");
 	JPanel  southPanel = new JPanel();
 	static  Canvas  drawingBoard = new Canvas();
     int	   data[] = new int [SortCons.ARRAY_SIZE];
@@ -30,11 +29,10 @@ public class SimpleStocks extends JApplet implements ActionListener{
     	c.setSize(650, 500);
 
     	c.setLayout(new BorderLayout() );
-    	for ( int i = 0; i < buttonArray.length; i ++ ) {
-    		buttonArray[i].addActionListener(this);
-    		if ( i > 0 )  buttonArray[i].setEnabled(false);
-    		southPanel.add(buttonArray[i]);
-    	}
+    	generateButton.addActionListener(this);
+    	generateButton.setEnabled(true);
+    	southPanel.add(generateButton);
+    	
     	c.add(southPanel, BorderLayout.SOUTH);
     	c.add(drawingBoard, BorderLayout.CENTER);
     	drawingBoard.setBackground(Color.black);
@@ -46,31 +44,12 @@ public class SimpleStocks extends JApplet implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		int k = -1;
 		Object o = e.getSource();
-		for ( int i = 0; i < buttonArray.length; i++ ) {
-			if ( o == buttonArray[i] ) { 
-				k = i; 
-				break; }
-		}
-
-		switch ( k ) {
-			case 0: 
-				generateDataThread = new GenerateDataThread(
-						stockDataThreadOne, stockDataThreadTwo, data);
-				generateDataThread.start();
-				for ( int i = 1; i < 3; i++) buttonArray[i].setEnabled(true) ;
-				break;
-			case 1: 
-//				mergeSortThread = new MergeSortThread (
-//				generateDataThread, shuffleDataThread, data);
-//				mergeSortThread.start() ; 
-				break;
-			case 2: 
-//				shuffleDataThread = new ShuffleDataThread (
-//				generateDataThread, mergeSortThread, data);
-//				shuffleDataThread.start(); 
-				break;
+		
+		if(o.equals(generateButton)){
+			generateDataThread = new GenerateDataThread(
+			stockDataThreadOne, stockDataThreadTwo, data);
+			generateDataThread.start();
 		}
 	}
 	
